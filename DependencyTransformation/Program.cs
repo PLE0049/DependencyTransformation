@@ -10,13 +10,11 @@ namespace DependencyTransformation
     {
         static void Main(string[] args)
         {
-            DependencyCalculator Dc = new DependencyCalculator();
+            DependencyCalculator dc = new DependencyCalculator();
+            dc.LoadData("edges lesmis.csv");
+            var result = dc.Dependency(1, 0);
 
-
-
-        }
-
-        
+        }  
     }
 }
  
