@@ -10,6 +10,13 @@ namespace DependencyTransformation
     {
         static void Main(string[] args)
         {
+            DependencyCalculator Dc = new DependencyCalculator();
+
+
+
         }
+
+        
     }
 }
+ 
