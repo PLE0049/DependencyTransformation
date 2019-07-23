@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,6 +15,11 @@ namespace DependencyTransformation
         int size;
         int[][] AdjacencyMatrix;
         double[][] DependencyMatrix;
+
+        public int[][] getAdjacencyMatrix()
+        {
+            return AdjacencyMatrix;
+        }
 
         public void LoadData(string path)
         {
