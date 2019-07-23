@@ -19,6 +19,7 @@ namespace DependencyUnitTest
             Assert.AreEqual(0.75, dc.Dependency(8,7));
         }
 
+        [TestMethod]
         public void TestDependencyMatrixResult()
         {
             DependencyCalculator dc = new DependencyCalculator();
