@@ -10,8 +10,6 @@ namespace DependencyTransformation
 {
     public class DependencyCalculator
     {
-        long n, m, o;
-
         int size;
         int[][] AdjacencyMatrix;
         double[][] DependencyMatrix;
@@ -19,6 +17,11 @@ namespace DependencyTransformation
         public int[][] getAdjacencyMatrix()
         {
             return AdjacencyMatrix;
+        }
+
+        public double[][] getDependencyMatrix()
+        {
+            return DependencyMatrix;
         }
 
         public void LoadData(string path)
@@ -36,13 +39,8 @@ namespace DependencyTransformation
                 size = size < x ? x : size;
                 size = size < y ? y : size;
             }
-
-            // Alocate space
-            AdjacencyMatrix = new int[size + 1][];
-            for (int i = 0; i < size + 1; i++)
-            {
-                AdjacencyMatrix[i] = new int[size + 1];
-            }
+            size++;
+            AlocateMatrices(size);
 
             // Create Adjancy Matrix
             foreach (var line in lines)
@@ -56,10 +54,35 @@ namespace DependencyTransformation
             }
         }
 
+        private void AlocateMatrices(int size)
+        {
+            // Alocate space for 
+            AdjacencyMatrix = new int[size][];
+            DependencyMatrix = new double[size][];
+            for (int i = 0; i < size; i++)
+            {
+                AdjacencyMatrix[i] = new int[size];
+                DependencyMatrix[i] = new double[size];
+            }
+        }
+
         public void Dependency(Object _elem)
         {
+            Coord coords = (Coord)_elem;
 
+            if(areNeighbours(coords.x, coords.y))
+            {
+                DependencyMatrix[coords.x][coords.y] = Dependency(coords.x, coords.y);
+            }
+            else
+            {
+                DependencyMatrix[coords.x][coords.y] = 0;
+            }
+        }
 
+        bool areNeighbours(int x, int y )
+        {
+            return AdjacencyMatrix[x][y] > 0;
         }
 
         public double Dependency(int x, int y)
@@ -74,7 +97,7 @@ namespace DependencyTransformation
         {
             List<int> CommonNeighbours = new List<int>();
 
-            for(int i = 0; i < size+1; i++)
+            for(int i = 0; i < size; i++)
             {
                 if(AdjacencyMatrix[x][i] > 0 && AdjacencyMatrix[y][i] > 0)
                 {
@@ -121,22 +144,22 @@ namespace DependencyTransformation
             return (sum);
         }
 
-        public void ParallelThreadMultiply()
+        public void ParallelThreadTransformation()
         {
-            Thread[,] th = new Thread[n, o];
-            for (int i = 0; i < n; ++i)
+            Thread[,] th = new Thread[size, size];
+            for (int i = 0; i < size; ++i)
             {
-                for (int j = 0; j < o; ++j)
+                for (int j = 0; j < size; ++j)
                 {
                     Coord elem = new Coord(i,j);
                     th[i, j] = new Thread(new ParameterizedThreadStart(this.Dependency));
-                    th[i, j].Start();
+                    th[i, j].Start(elem);
                 }
             }
 
-            for (int i = 0; i < n; ++i)
+            for (int i = 0; i < size; ++i)
             {
-                for (int j = 0; j < o; ++j)
+                for (int j = 0; j < size; ++j)
                 {
                     th[i, j].Join();
                 }
@@ -145,8 +168,8 @@ namespace DependencyTransformation
 
         public void ParralelMatrixTransformation(double[,] a, double[,] result)
         {
-            int s = a.GetLength(0);
-
+            /*int s = a.GetLength(0);
+            
             ParallelProcessor.For(0, s, delegate (int i)
             {
                 for (int j = 0; j < s; j++)
@@ -156,7 +179,7 @@ namespace DependencyTransformation
                         result[i, j] = Dependency(i, j);
                     }
                 }
-            });
+            });*/
         }
     }
 }
