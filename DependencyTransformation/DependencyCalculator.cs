@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -74,7 +74,7 @@ namespace DependencyTransformation
         {
             List<int> CommonNeighbours = new List<int>();
 
-            for(int i = 0; i < size; i++)
+            for(int i = 0; i < size+1; i++)
             {
                 if(AdjacencyMatrix[x][i] > 0 && AdjacencyMatrix[y][i] > 0)
                 {
