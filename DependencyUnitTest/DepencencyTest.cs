@@ -19,6 +19,17 @@ namespace DependencyUnitTest
             Assert.AreEqual(0.75, dc.Dependency(8,7));
         }
 
+        public void TestDependencyMatrixResult()
+        {
+            DependencyCalculator dc = new DependencyCalculator();
+            dc.LoadData(TestGraphPath);
+            dc.ParallelThreadTransformation();
+            var depencencyMatrix = dc.getDependencyMatrix();
+            Assert.AreEqual(1, depencencyMatrix[1][4]);
+            Assert.AreEqual(0.4, depencencyMatrix[7][4]);
+            Assert.AreEqual(0.75, depencencyMatrix[8][7]);
+        }
+
         [TestMethod]
         public void TestFileLoad()
         {
