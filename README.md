@@ -14,4 +14,6 @@ In this program we use multiple method how to optimize performance of algorithm 
 3) Native Microsoft `System.Threading.TasksParallel.For`
 4) Own Implementation of Parallel manager - Parallel-For
 
+## Tests
+
 ## Results
