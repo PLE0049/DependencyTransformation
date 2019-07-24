@@ -42,5 +42,8 @@ namespace DependencyUnitTest
             Assert.AreEqual(1, matrix[5][7]);
             Assert.AreEqual(0, matrix[3][6]);
         }
+
+        // Compute dependency as geom mean from two directions
+
     }
 }

@@ -8,12 +8,14 @@ namespace DependencyTransformation
 {
     class Program
     {
+        private static string TestGraphPath = @"C:\Work\VSB\DependencyTransformation\DependencyTransformation\TestSample\sample.csv";
+
         static void Main(string[] args)
         {
             DependencyCalculator dc = new DependencyCalculator();
-            dc.LoadData("edges lesmis.csv");
-            var result = dc.Dependency(1, 0);
-
+            dc.LoadData("edges karate.csv");
+            dc.ParallelThreadTransformation();
+            var result = dc.getDependencyMatrix();
         }  
     }
 }

@@ -11,6 +11,7 @@ namespace DependencyTransformation
     public class DependencyCalculator
     {
         int size;
+
         int[][] AdjacencyMatrix;
         double[][] DependencyMatrix;
 
