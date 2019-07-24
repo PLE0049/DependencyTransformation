@@ -70,15 +70,7 @@ namespace DependencyTransformation
         public void Dependency(Object _elem)
         {
             Coord coords = (Coord)_elem;
-
-            if(areNeighbours(coords.x, coords.y))
-            {
-                DependencyMatrix[coords.x][coords.y] = Dependency(coords.x, coords.y);
-            }
-            else
-            {
-                DependencyMatrix[coords.x][coords.y] = 0;
-            }
+            DependencyMatrix[coords.x][coords.y] = Dependency(coords.x, coords.y);
         }
 
         bool areNeighbours(int x, int y )
@@ -152,9 +144,12 @@ namespace DependencyTransformation
             {
                 for (int j = 0; j < size; ++j)
                 {
-                    Coord elem = new Coord(i,j);
-                    th[i, j] = new Thread(new ParameterizedThreadStart(this.Dependency));
-                    th[i, j].Start(elem);
+                    if (areNeighbours(i, j))
+                    {
+                        Coord elem = new Coord(i, j);
+                        th[i, j] = new Thread(new ParameterizedThreadStart(this.Dependency));
+                        th[i, j].Start(elem);
+                    }
                 }
             }
 
@@ -162,7 +157,10 @@ namespace DependencyTransformation
             {
                 for (int j = 0; j < size; ++j)
                 {
-                    th[i, j].Join();
+                    if(th[i, j] != null)
+                    {
+                        th[i, j].Join();
+                    }
                 }
             }
         }
