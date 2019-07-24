@@ -165,6 +165,21 @@ namespace DependencyTransformation
             }
         }
 
+
+        public void ParralelMatrixNative()
+        {
+            Parallel.For(0, size, i => {
+                Parallel.For(0, size, j => {
+                    if (areNeighbours(i, j))
+                    {
+                        Coord elem = new Coord(i, j);
+                        this.Dependency(elem);
+                    }
+                });
+            });
+        }
+        
+
         public void ParralelMatrixTransformation(double[,] a, double[,] result)
         {
             /*int s = a.GetLength(0);
