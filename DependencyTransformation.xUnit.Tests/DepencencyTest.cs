@@ -44,5 +44,11 @@ namespace DependencyUnitTest
             Assert.Equal(1, matrix[5][7]);
             Assert.Equal(0, matrix[3][6]);
         }
+
+        [Fact]
+        public void TestResultOfMultipleMethodsAreEqual()
+        {
+
+        }
     }
 }
