@@ -137,7 +137,7 @@ namespace DependencyTransformation
             return (sum);
         }
 
-        public void ParallelThreadTransformation()
+        public void ParallelNaiveThreadTransformation()
         {
             Thread[,] th = new Thread[size, size];
             for (int i = 0; i < size; ++i)
@@ -165,8 +165,7 @@ namespace DependencyTransformation
             }
         }
 
-
-        public void ParralelMatrixNative()
+        public void ParallelNativeForTransformation()
         {
             Parallel.For(0, size, i => {
                 Parallel.For(0, size, j => {
@@ -178,22 +177,64 @@ namespace DependencyTransformation
                 });
             });
         }
-        
 
-        public void ParralelMatrixTransformation(double[,] a, double[,] result)
+        public void SequentionalTransformation()
         {
-            /*int s = a.GetLength(0);
-            
-            ParallelProcessor.For(0, s, delegate (int i)
+            for (int i = 0; i < size; ++i)
             {
-                for (int j = 0; j < s; j++)
-                {
-                    for (int k = 0; k < s; k++)
+                for (int j = 0; j < size; ++j)
+                { 
+                    if (areNeighbours(i, j))
                     {
-                        result[i, j] = Dependency(i, j);
+                        Coord elem = new Coord(i, j);
+                        this.Dependency(elem);
                     }
                 }
-            });*/
+            }
+        }
+
+
+        public void ParralelOwnForTransformation()
+        {
+            
+            ParallelProcessor.For(0, size, delegate (int i)
+            {
+                for (int j = 0; j < size; ++j)
+                {
+                    if (areNeighbours(i, 0))
+                    {
+                        Coord elem = new Coord(i, 0);
+                        this.Dependency(elem);
+                    }
+                }
+            });
+        }
+        
+        public void ParralelTaskTransformation()
+        {
+            List<Task> tasks = new List<Task>();
+            int taskNum = 0;
+            for (var i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; ++j)
+                {
+                    if (areNeighbours(i, j))
+                    {
+                        Coord elem = new Coord(i, j);
+                        var multiplicacion = new Task((parametr) =>
+                        {
+                            Coord ii = (Coord)parametr;
+                            this.Dependency(elem);
+                        },
+                        elem);
+
+                        tasks.Add(multiplicacion);
+                        taskNum++;
+                        multiplicacion.Start();
+                    }
+                }                  
+            }
+            Task.WaitAll(tasks.ToArray());
         }
     }
 }
