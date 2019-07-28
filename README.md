@@ -10,9 +10,10 @@
 In this program we use multiple method how to optimize performance of algorithm and compare their performance.
 
 1) Sequentional approach
-2) Naive parallelism
-3) Native Microsoft `System.Threading.TasksParallel.For`
-4) Own Implementation of Parallel manager - Parallel-For
+2) Native Microsoft `System.Threading.TasksParallel.For`
+3) Microsoft Task
+4) Implementation of Parallel manager - Parallel-For
+5) Naive parallelism  
 
 ## Tests
 
