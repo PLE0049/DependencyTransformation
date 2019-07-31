@@ -45,7 +45,7 @@ namespace DependencyUnitTest
         [Fact]
         public void TestFileLoad()
         {
-            int[][] matrix = _calculator.getAdjacencyMatrix();
+            double[][] matrix = _calculator.getAdjacencyMatrix();
             Assert.Equal(1, matrix[4][5]);
             Assert.Equal(1, matrix[6][5]);
             Assert.Equal(1, matrix[5][7]);

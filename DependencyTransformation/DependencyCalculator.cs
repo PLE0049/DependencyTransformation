@@ -10,12 +10,12 @@ namespace DependencyTransformation
 {
     public class DependencyCalculator
     {
-        int size;
+        private int size;
 
-        int[][] AdjacencyMatrix;
-        double[][] DependencyMatrix;
+        private double[][] AdjacencyMatrix;
+        private double[][] DependencyMatrix;
 
-        public int[][] getAdjacencyMatrix()
+        public double[][] getAdjacencyMatrix()
         {
             return AdjacencyMatrix;
         }
@@ -49,7 +49,7 @@ namespace DependencyTransformation
                 string[] attributes = line.Split(';');
                 int x = Int32.Parse(attributes[0]);
                 int y = Int32.Parse(attributes[1]);
-                int w = Int32.Parse(attributes[2]);
+                double w = Double.Parse(attributes[2]);
                 AdjacencyMatrix[x][y] = w;
                 AdjacencyMatrix[y][x] = w;
             }
@@ -58,11 +58,11 @@ namespace DependencyTransformation
         private void AlocateMatrices(int size)
         {
             // Alocate space for 
-            AdjacencyMatrix = new int[size][];
+            AdjacencyMatrix = new double[size][];
             DependencyMatrix = new double[size][];
             for (int i = 0; i < size; i++)
             {
-                AdjacencyMatrix[i] = new int[size];
+                AdjacencyMatrix[i] = new double[size];
                 DependencyMatrix[i] = new double[size];
             }
         }
@@ -128,8 +128,9 @@ namespace DependencyTransformation
         }
         private double getNeighboursWeightSum(int node)
         {
-            int[] a = AdjacencyMatrix[node];
-            int i, sum = 0;
+            double[] a = AdjacencyMatrix[node];
+            int i = 0;
+            double sum = 0;
             for (i = 0; i < a.Length; i++)
             {
                 sum = sum + a[i];
