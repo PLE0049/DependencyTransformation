@@ -10,12 +10,14 @@ namespace DependencyTransformation
 {
     public class DependencyCalculator
     {
-        int size;
+        private int size;
 
-        int[][] AdjacencyMatrix;
-        double[][] DependencyMatrix;
+        private double[][] AdjacencyMatrix;
+        private double[][] DependencyMatrix;
 
-        public int[][] getAdjacencyMatrix()
+        Dictionary<int, int> Nodes;
+
+        public double[][] getAdjacencyMatrix()
         {
             return AdjacencyMatrix;
         }
@@ -28,6 +30,7 @@ namespace DependencyTransformation
         public void LoadData(string path)
         {
             string[] lines = File.ReadAllLines(path);
+            Nodes = new Dictionary<int, int>();
 
             size = 0;
             // Look for max value
@@ -36,11 +39,10 @@ namespace DependencyTransformation
                 string[] attributes = line.Split(';');
 
                 int x = Int32.Parse(attributes[0]);
+                CreateNode(x);
                 int y = Int32.Parse(attributes[1]);
-                size = size < x ? x : size;
-                size = size < y ? y : size;
+                CreateNode(y);
             }
-            size++;
             AlocateMatrices(size);
 
             // Create Adjancy Matrix
@@ -49,20 +51,65 @@ namespace DependencyTransformation
                 string[] attributes = line.Split(';');
                 int x = Int32.Parse(attributes[0]);
                 int y = Int32.Parse(attributes[1]);
-                int w = Int32.Parse(attributes[2]);
+                double w = Double.Parse(attributes[2].Replace(',', '.'));
+
+                x = Nodes[x];
+                y = Nodes[y];
+
                 AdjacencyMatrix[x][y] = w;
                 AdjacencyMatrix[y][x] = w;
+            }
+        }
+
+        public void LoadDependencyMatrix(string path)
+        {
+            string[] lines = File.ReadAllLines(path);
+            Nodes = new Dictionary<int, int>();
+
+            size = 0;
+            // Look for max value
+            foreach (var line in lines)
+            {
+                string[] attributes = line.Split(';');
+
+                int x = Int32.Parse(attributes[0]);
+                CreateNode(x);
+                int y = Int32.Parse(attributes[1]);
+                CreateNode(y);
+            }
+            AlocateMatrices(size);
+
+            // Create Adjancy Matrix
+            foreach (var line in lines)
+            {
+                string[] attributes = line.Split(';');
+                int x = Int32.Parse(attributes[0]);
+                int y = Int32.Parse(attributes[1]);
+                double w = Double.Parse(attributes[2].Replace(',', '.'));
+
+                x = Nodes[x];
+                y = Nodes[y];
+
+                DependencyMatrix[x][y] = w;
+            }
+        }
+        private void CreateNode(int node)
+        {
+            if (!Nodes.ContainsKey(node))
+            {
+                Nodes[node] = size;
+                size++;
             }
         }
 
         private void AlocateMatrices(int size)
         {
             // Alocate space for 
-            AdjacencyMatrix = new int[size][];
+            AdjacencyMatrix = new double[size][];
             DependencyMatrix = new double[size][];
             for (int i = 0; i < size; i++)
             {
-                AdjacencyMatrix[i] = new int[size];
+                AdjacencyMatrix[i] = new double[size];
                 DependencyMatrix[i] = new double[size];
             }
         }
@@ -83,7 +130,17 @@ namespace DependencyTransformation
             double divident = AdjacencyMatrix[x][y] + getCommonNeighboutsWeightsTimesCoef(x,y);
             double divisor = getNeighboursWeightSum(x);
 
-            return divident/divisor;
+            return divident / divisor;
+        }
+
+        public int GetRealId(int x)
+        {
+            return Nodes[x];
+        }
+
+        public double DependencyByRealID(int x, int y)
+        {
+            return Dependency(GetRealId(x), GetRealId(y));
         }
 
         private List<int> CommonNeighbours(int x, int y)
@@ -128,8 +185,9 @@ namespace DependencyTransformation
         }
         private double getNeighboursWeightSum(int node)
         {
-            int[] a = AdjacencyMatrix[node];
-            int i, sum = 0;
+            double[] a = AdjacencyMatrix[node];
+            int i = 0;
+            double sum = 0;
             for (i = 0; i < a.Length; i++)
             {
                 sum = sum + a[i];
