@@ -25,11 +25,10 @@ namespace DependencyUnitTest
 
         [Fact]
         public void TestDependencyResult()
-        {
-            
-            Assert.Equal(1, _calculator.Dependency(1, 4), PercisionDecimalPlaces);
-            Assert.Equal(0.4, _calculator.Dependency(7, 4), PercisionDecimalPlaces);
-            Assert.Equal(0.75, _calculator.Dependency(8,7), PercisionDecimalPlaces);
+        {    
+            Assert.Equal(1, _calculator.DependencyByRealID(1, 4), PercisionDecimalPlaces);
+            Assert.Equal(0.4, _calculator.DependencyByRealID(7, 4), PercisionDecimalPlaces);
+            Assert.Equal(0.75, _calculator.DependencyByRealID(8,7), PercisionDecimalPlaces);
         }
 
         [Fact]
@@ -37,19 +36,19 @@ namespace DependencyUnitTest
         {
             _calculator.ParallelNaiveThreadTransformation();
             var depencencyMatrix = _calculator.getDependencyMatrix();
-            Assert.Equal(1, depencencyMatrix[1][4], PercisionDecimalPlaces);
-            Assert.Equal(0.4, depencencyMatrix[7][4], PercisionDecimalPlaces);
-            Assert.Equal(0.75, depencencyMatrix[8][7], PercisionDecimalPlaces);
+            Assert.Equal(1, depencencyMatrix[_calculator.GetRealId(1)][_calculator.GetRealId(4)], PercisionDecimalPlaces);
+            Assert.Equal(0.4, depencencyMatrix[_calculator.GetRealId(7)][_calculator.GetRealId(4)], PercisionDecimalPlaces);
+            Assert.Equal(0.75, depencencyMatrix[_calculator.GetRealId(8)][_calculator.GetRealId(7)], PercisionDecimalPlaces);
         }
 
         [Fact]
         public void TestFileLoad()
         {
             double[][] matrix = _calculator.getAdjacencyMatrix();
-            Assert.Equal(1, matrix[4][5]);
-            Assert.Equal(1, matrix[6][5]);
-            Assert.Equal(1, matrix[5][7]);
-            Assert.Equal(0, matrix[3][6]);
+            Assert.Equal(1, matrix[_calculator.GetRealId(4)][_calculator.GetRealId(5)]);
+            Assert.Equal(1, matrix[_calculator.GetRealId(6)][_calculator.GetRealId(5)]);
+            Assert.Equal(1, matrix[_calculator.GetRealId(5)][_calculator.GetRealId(7)]);
+            Assert.Equal(0, matrix[_calculator.GetRealId(3)][_calculator.GetRealId(6)]);
         }
 
         [Fact]

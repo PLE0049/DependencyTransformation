@@ -133,6 +133,16 @@ namespace DependencyTransformation
             return divident / divisor;
         }
 
+        public int GetRealId(int x)
+        {
+            return Nodes[x];
+        }
+
+        public double DependencyByRealID(int x, int y)
+        {
+            return Dependency(GetRealId(x), GetRealId(y));
+        }
+
         private List<int> CommonNeighbours(int x, int y)
         {
             List<int> CommonNeighbours = new List<int>();
