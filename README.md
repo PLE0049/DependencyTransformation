@@ -1,3 +1,6 @@
+![Azure DevOps builds](https://img.shields.io/azure-devops/build/jakubplesnik0556/e2326e62-1a5d-432d-8207-cc75c54cc312/1)
+![Azure DevOps tests](https://img.shields.io/azure-devops/tests/jakubplesnik0556/e2326e62-1a5d-432d-8207-cc75c54cc312/1)
+
 # DependencyTransformation
 
 * Dependency transformation computes two way dependency in non oriented weighted graph. 
