@@ -15,6 +15,8 @@ namespace DependencyTransformation
         private double[][] AdjacencyMatrix;
         private double[][] DependencyMatrix;
 
+        Dictionary<int, int> Nodes;
+
         public double[][] getAdjacencyMatrix()
         {
             return AdjacencyMatrix;
@@ -28,6 +30,7 @@ namespace DependencyTransformation
         public void LoadData(string path)
         {
             string[] lines = File.ReadAllLines(path);
+            Nodes = new Dictionary<int, int>();
 
             size = 0;
             // Look for max value
@@ -36,11 +39,10 @@ namespace DependencyTransformation
                 string[] attributes = line.Split(';');
 
                 int x = Int32.Parse(attributes[0]);
+                CreateNode(x);
                 int y = Int32.Parse(attributes[1]);
-                size = size < x ? x : size;
-                size = size < y ? y : size;
+                CreateNode(y);
             }
-            size++;
             AlocateMatrices(size);
 
             // Create Adjancy Matrix
@@ -49,9 +51,54 @@ namespace DependencyTransformation
                 string[] attributes = line.Split(';');
                 int x = Int32.Parse(attributes[0]);
                 int y = Int32.Parse(attributes[1]);
-                double w = Double.Parse(attributes[2]);
+                double w = Double.Parse(attributes[2].Replace(',', '.'));
+
+                x = Nodes[x];
+                y = Nodes[y];
+
                 AdjacencyMatrix[x][y] = w;
                 AdjacencyMatrix[y][x] = w;
+            }
+        }
+
+        public void LoadDependencyMatrix(string path)
+        {
+            string[] lines = File.ReadAllLines(path);
+            Nodes = new Dictionary<int, int>();
+
+            size = 0;
+            // Look for max value
+            foreach (var line in lines)
+            {
+                string[] attributes = line.Split(';');
+
+                int x = Int32.Parse(attributes[0]);
+                CreateNode(x);
+                int y = Int32.Parse(attributes[1]);
+                CreateNode(y);
+            }
+            AlocateMatrices(size);
+
+            // Create Adjancy Matrix
+            foreach (var line in lines)
+            {
+                string[] attributes = line.Split(';');
+                int x = Int32.Parse(attributes[0]);
+                int y = Int32.Parse(attributes[1]);
+                double w = Double.Parse(attributes[2].Replace(',', '.'));
+
+                x = Nodes[x];
+                y = Nodes[y];
+
+                DependencyMatrix[x][y] = w;
+            }
+        }
+        private void CreateNode(int node)
+        {
+            if (!Nodes.ContainsKey(node))
+            {
+                Nodes[node] = size;
+                size++;
             }
         }
 
@@ -83,7 +130,7 @@ namespace DependencyTransformation
             double divident = AdjacencyMatrix[x][y] + getCommonNeighboutsWeightsTimesCoef(x,y);
             double divisor = getNeighboursWeightSum(x);
 
-            return divident/divisor;
+            return divident / divisor;
         }
 
         private List<int> CommonNeighbours(int x, int y)

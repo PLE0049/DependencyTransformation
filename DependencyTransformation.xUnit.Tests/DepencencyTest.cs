@@ -97,34 +97,10 @@ namespace DependencyUnitTest
         {
             string[] lines = File.ReadAllLines(path);
             double[][] DependencyMatrix;
-            int size = 0;
-            // Look for max value
-            foreach (var line in lines)
-            {
-                string[] attributes = line.Split(';');
 
-                int x = Int32.Parse(attributes[0]);
-                int y = Int32.Parse(attributes[1]);
-                size = size < x ? x : size;
-                size = size < y ? y : size;
-            }
-            size++;
-
-            DependencyMatrix = new double[size][];
-            for (int i = 0; i < size; i++)
-            {
-                DependencyMatrix[i] = new double[size];
-            }
-
-            foreach (var line in lines)
-            {
-                string[] attributes = line.Split(';');
-                int x = Int32.Parse(attributes[0]);
-                int y = Int32.Parse(attributes[1]);
-                double w = Double.Parse(attributes[2].Replace(',', '.'));
-                DependencyMatrix[x][y] = w;
-            }
-
+            DependencyCalculator ResultLoader = new DependencyCalculator();
+            ResultLoader.LoadDependencyMatrix(path);
+            DependencyMatrix = ResultLoader.getDependencyMatrix();
             return DependencyMatrix;
         }
     }
