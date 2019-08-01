@@ -31,13 +31,13 @@ We use XUnit to ensure correct results of Dependecy calculation. There is severa
 
 ### Table of average ticks per computation.
 
-|                                | Lesmis   | Karate  | USAirports(1574 n) * | Newman (16727 n) ** |
-|--------------------------------|----------|---------|----------------------|---------------------|
-| Sequential                     | **31604**|**30177**| 290776               | 60973418            |
-| Microsoft Parallel.For         | 77765    | 50166   | 458576               | 33848828            |
-| Microsoft Task                 | 82093    | 88595   | **185884**           | **11989015**        |
-| Parallel Processor (own impl.) | 201956   | 84983   | 414773               | 54411260            |
-| Naive Paralell Threads         | 21056111 | 7725936 | NAN                  | NAN                 |
+|                                | Lesmis | Karate | USAirports | Newman   | as-22july06 | astro-ph | PP-Decagon |
+|--------------------------------|--------|--------|------------|----------|-------------|----------|------------|
+| Sequential                     | 6960   | 6991   | 178667     | 91008613 | 12692952    | 17202213 | 376663664  |
+| Microsofrt  Task               | 5635   | 6057   | 116831     | 54133513 | 6859156     | 7776491  | 94403879   |
+| Parallel Processor (own impl.) | 3870   | 6057   | 528804     | 66788621 | 4470979     | 1655129  | 28239280   |
+| Microsoft Parallel.For         | 9437   | 5576   | 155050     | 66153578 | 16643949    | 10837409 | 142772174  |
+| Naive Paralell Threads         | 210272 | 90015  | 2564208    | NAN      | NAN         | NAN      | NAN        |
 
 
 \*	https://toreopsahl.com/datasets/#usairports
