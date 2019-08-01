@@ -31,7 +31,7 @@ We use XUnit to ensure correct results of Dependecy calculation. There is severa
 
 ### Table of average ticks per computation.
 
-|                                | Lesmis | Karate | USAirports | Newman   | as-22july06 | astro-ph | PP-Decagon |
+|                                | Lesmis | Karate | USAirports | Newman   | as-22july06 | astro-ph | Decagon |
 |--------------------------------|--------|--------|------------|----------|-------------|----------|------------|
 | Sequential                     | 6960   | 6991   | 178667     | 91008613 | 12692952    | 17202213 | 376663664  |
 | Microsofrt  Task               | 5635   | 6057   | 116831     | 54133513 | 6859156     | 7776491  | 94403879   |
