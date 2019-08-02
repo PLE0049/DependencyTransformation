@@ -44,4 +44,4 @@ We use XUnit to ensure correct results of Dependecy calculation. There is severa
 
 \**	https://toreopsahl.com/datasets/#newman2001
 
-*Note: Number as average per 5 runs of alg.*
+*Note: Number is average per 5 runs of alg.*
