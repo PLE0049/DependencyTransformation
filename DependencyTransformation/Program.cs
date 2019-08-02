@@ -1,4 +1,4 @@
- using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,21 +11,16 @@ namespace DependencyTransformation
     {
         private static string GraphKaratePath = "Data/Karate.csv";
         private static string GraphLesmisPath = "Data/lesmis.csv";
-        private static string GraphNewmanPath = "Data/Newman.csv";
-        private static string GraphUSAirportsPath = "Data/USairport.csv";
-        private static string GraphAstroPhPath = "Data/astro-ph.csv";
-        private static string GraphAsPath = "Data/as-22july06.csv";
-        private static string GraphDecagonPath = "Data/PP-Decagon_ppi.csv";
 
         static void Main(string[] args)
         {
             DependencyCalculator dc;
             double[][] result;
             Stopwatch sw;
-            string GraphPath = GraphDecagonPath;
+            string GraphPath = GraphKaratePath;
             long[] time = new long[5];
 
-            for(int i=0; i<1; i++)
+            for(int i = 0; i < 5; i++)
             {
                 time[i] = 0;
             }
@@ -89,21 +84,21 @@ namespace DependencyTransformation
                 GC.WaitForPendingFinalizers();
 
 
-                /* dc = new DependencyCalculator();
+                dc = new DependencyCalculator();
                  sw.Start();
                  dc.LoadData(GraphPath);
                  dc.ParallelNaiveThreadTransformation();
                  result = dc.getDependencyMatrix();
                  sw.Stop();
                  time[4] += sw.ElapsedTicks;
-                 sw.Reset();*/
+                 sw.Reset();
             }
 
             Console.WriteLine("Method: Sequential; Ticks: {0}", time[0]/5);
             Console.WriteLine("Method: Tasks; Ticks: {0}", time[1]/5);
             Console.WriteLine("Method: Parallel Manager; Ticks: {0}", time[2]/5);
             Console.WriteLine("Method: Native Parallel For; Ticks: {0}", time[3]/5);
-            //Console.WriteLine("Method: Naive Parallel; Ticks: {0} ms", time[4]/5);
+            Console.WriteLine("Method: Naive Parallel; Ticks: {0} ms", time[4]/5);
         }  
     }
 }

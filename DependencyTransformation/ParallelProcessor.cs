@@ -9,13 +9,16 @@ namespace DependencyTransformation
 {
     public sealed class ParallelProcessor
     {
+
         public delegate void ForLoopBody(int index);
 
-        // Optionaly we can use ProcessorCount * 2
+        // Optionaly we can use ProcessorCount
         private static int threadsCount = System.Environment.ProcessorCount*2;
 
+        // Ensure thread safe singleton
         private static object sync = new Object();
 
+        // !! Volatile !!  
         private static volatile ParallelProcessor instance = null;
 
         private Thread[] threads = null;
@@ -61,8 +64,6 @@ namespace DependencyTransformation
                 }
             }
         }
-
-        private ParallelProcessor() { }
 
         private static ParallelProcessor Instance
         {
