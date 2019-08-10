@@ -70,16 +70,16 @@ namespace DependencyUnitTest
 
             double[][] result = LoadResultMatrix(ResultPath);
 
-            List<Action> Methods = new List<Action>();
+            List<Action<int>> Methods = new List<Action<int>>();
             Methods.Add(cal.ParallelNativeForTransformation);
             Methods.Add(cal.ParralelTaskTransformation);
             Methods.Add(cal.ParralelOwnForTransformation);
 
             int size = result.Length;
 
-            foreach (Action parallelMethod in Methods)
+            foreach (Action<int> parallelMethod in Methods)
             {
-                parallelMethod();
+                parallelMethod(0);
                 var depencencyMatrix = cal.getDependencyMatrix();
                 for (int i = 0; i < size; ++i)
                 {

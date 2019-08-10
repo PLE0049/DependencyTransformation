@@ -17,7 +17,7 @@ namespace DependencyTransformation
             DependencyCalculator dc;
             double[][] result;
             Stopwatch sw;
-            string GraphPath = GraphNewmanPath;
+            string GraphPath = GraphKaratePath;
             int TotalNumberOfCpus = Environment.ProcessorCount;
             const int ExperimentsCount = 4;
             int CpuLimit = TotalNumberOfCpus / 4;
