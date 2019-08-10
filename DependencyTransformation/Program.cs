@@ -31,11 +31,12 @@ namespace DependencyTransformation
             }
 
             Console.WriteLine("Start of experiment");
-            for (int i = 0; i < 5; i++ )
+            for (int i = 0; i < 1; i++ )
             {
                 Console.WriteLine("Start of the round {0}",i);
                 sw = new Stopwatch();
                 dc = new DependencyCalculator();
+                /*
                 sw.Start();
                 dc.LoadData(GraphPath);
                 dc.SequentionalTransformation();
@@ -47,7 +48,7 @@ namespace DependencyTransformation
 
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
-
+              
 
                 dc = new DependencyCalculator();
                 sw.Start();
@@ -61,7 +62,7 @@ namespace DependencyTransformation
 
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
-
+                
                 dc = new DependencyCalculator();
                 sw.Start();
                 dc.LoadData(GraphPath);
@@ -74,7 +75,7 @@ namespace DependencyTransformation
 
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
-
+                  */
                 dc = new DependencyCalculator();
                 sw.Start();
                 dc.LoadData(GraphPath);
@@ -82,8 +83,10 @@ namespace DependencyTransformation
                 result = dc.getDependencyMatrix();
                 sw.Stop();
                 time[3] += sw.ElapsedTicks;
+                Console.WriteLine("Time:" + sw.ElapsedMilliseconds / 1000);
                 sw.Reset();
                 dc = null;
+
 
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
@@ -99,10 +102,10 @@ namespace DependencyTransformation
                  sw.Reset();*/
             }
 
-            Console.WriteLine("Method: Sequential; Ticks: {0}", time[0]/5);
-            Console.WriteLine("Method: Tasks; Ticks: {0}", time[1]/5);
-            Console.WriteLine("Method: Parallel Manager; Ticks: {0}", time[2]/5);
-            Console.WriteLine("Method: Native Parallel For; Ticks: {0}", time[3]/5);
+            //Console.WriteLine("Method: Sequential; Ticks: {0}", time[0]/5);
+            Console.WriteLine("Method: Tasks; Ticks: {0}", time[1]/1);
+            Console.WriteLine("Method: Parallel Manager; Ticks: {0}", time[2]/1);
+            Console.WriteLine("Method: Native Parallel For; Ticks: {0}", time[3]/1);
             //Console.WriteLine("Method: Naive Parallel; Ticks: {0} ms", time[4]/5);
         }  
     }
