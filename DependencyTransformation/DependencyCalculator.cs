@@ -223,16 +223,22 @@ namespace DependencyTransformation
             }
         }
 
-        public void ParallelNativeForTransformation()
+        public void ParallelNativeForTransformation(int threads = 0)
         {
-            Parallel.For(0, size, i => {
-                Parallel.For(0, size, j => {
+            if (threads == 0)
+            {
+                threads = Environment.ProcessorCount;
+            }
+
+            Parallel.For(0, size, new ParallelOptions() { MaxDegreeOfParallelism = threads }, i => {
+                for (int j = 0; j < size; ++j)
+                {
                     if (areNeighbours(i, j))
                     {
                         Coord elem = new Coord(i, j);
                         this.Dependency(elem);
                     }
-                });
+                }
             });
         }
 
@@ -252,9 +258,14 @@ namespace DependencyTransformation
         }
 
 
-        public void ParralelOwnForTransformation()
+        public void ParralelOwnForTransformation(int threads = 0)
         {
-            
+            if(threads == 0)
+            {
+                threads = Environment.ProcessorCount;
+            }
+
+            ParallelProcessor.ThreadsCount = threads;
             ParallelProcessor.For(0, size, delegate (int i)
             {
                 for (int j = 0; j < size; ++j)
@@ -268,10 +279,20 @@ namespace DependencyTransformation
             });
         }
         
-        public void ParralelTaskTransformation()
+        public void ParralelTaskTransformation(int threads = 0)
         {
+            if (threads == 0)
+            {
+                threads = Environment.ProcessorCount;
+            }
+
+            // Create a scheduler that uses two threads. 
+            LimitedConcurrencyLevelTaskScheduler lcts = new LimitedConcurrencyLevelTaskScheduler(threads);
             List<Task> tasks = new List<Task>();
-            int taskNum = 0;
+
+            // Create a TaskFactory and pass it our custom scheduler. 
+            TaskFactory factory = new TaskFactory(lcts);
+
             for (var i = 0; i < size; i++)
             {
                 for (int j = 0; j < size; ++j)
@@ -279,16 +300,14 @@ namespace DependencyTransformation
                     if (areNeighbours(i, j))
                     {
                         Coord elem = new Coord(i, j);
-                        var multiplicacion = new Task((parametr) =>
+                        Task t = factory.StartNew((parametr) =>
                         {
                             Coord ii = (Coord)parametr;
                             this.Dependency(elem);
                         },
                         elem);
 
-                        tasks.Add(multiplicacion);
-                        taskNum++;
-                        multiplicacion.Start();
+                        tasks.Add(t);
                     }
                 }                  
             }

@@ -12,7 +12,7 @@ namespace DependencyTransformation
         public delegate void ForLoopBody(int index);
 
         // Optionaly we can use ProcessorCount * 2
-        private static int threadsCount = System.Environment.ProcessorCount*2;
+        private static int threadsCount = System.Environment.ProcessorCount;
 
         private static object sync = new Object();
 
