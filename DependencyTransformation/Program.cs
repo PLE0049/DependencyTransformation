@@ -22,6 +22,10 @@ namespace DependencyTransformation
             const int ExperimentsCount = 4;
             int CpuLimit = TotalNumberOfCpus / 4;
 
+            Console.WriteLine("Start of experiment");
+            Console.WriteLine("Total cpus: {0}", TotalNumberOfCpus);
+            Console.WriteLine("");
+
             for (int j = 0; j < ExperimentsCount; j++)
             {
                 long[] time = new long[5];
@@ -33,10 +37,10 @@ namespace DependencyTransformation
 
                 int CurrentLogicalCPUsInUse = CpuLimit + j;
 
-                Console.WriteLine("Start of experiment");
                 Console.WriteLine("Start of the round with limit of {0} logical cpus", CurrentLogicalCPUsInUse);
+
                 for (int i = 0; i < 1; i++)
-                {
+                {                  
                     sw = new Stopwatch();
                     dc = new DependencyCalculator();
                     sw.Start();
@@ -81,7 +85,7 @@ namespace DependencyTransformation
                     Console.WriteLine("Method: Tasks; Ticks: {0}", time[1] / 1);
                     Console.WriteLine("Method: Parallel Manager; Ticks: {0}", time[2] / 1);
                     Console.WriteLine("Method: Native Parallel For; Ticks: {0}", time[3] / 1);
-
+                    Console.WriteLine("");
                 }
             }
         }  
