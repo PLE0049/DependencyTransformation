@@ -9,9 +9,6 @@ namespace DependencyTransformation
 {
     class Program
     {
-        private static string GraphKaratePath = "Data/Karate.csv";
-        private static string GraphLesmisPath = "Data/lesmis.csv";
-
         static void Main(string[] args)
         {
             DependencyCalculator dc;
@@ -19,23 +16,31 @@ namespace DependencyTransformation
             Stopwatch sw;
             string GraphPath;
             int TotalNumberOfCpus = Environment.ProcessorCount;
-            const int ExperimentsCount = 4;
-            int CpuLimit = TotalNumberOfCpus / 4;
+            int CpuRanges;
+            int ExperimentCount;
+            
 
 
             Console.WriteLine("Enter graph file path: ");
             GraphPath = Console.ReadLine();
 
+            Console.WriteLine("Total cpus: {0}", TotalNumberOfCpus);
+            Console.WriteLine("Enter number of cpu ranges <1,10>:");
+            CpuRanges = Int32.Parse(Console.ReadLine());
+            int CpuLimit = TotalNumberOfCpus / CpuRanges;
+
+            Console.WriteLine("Enter number of experiments:");
+            ExperimentCount = Int32.Parse(Console.ReadLine());
+
             Console.WriteLine("");
             Console.WriteLine("Start of experiment");
-            Console.WriteLine("Total cpus: {0}", TotalNumberOfCpus);
             Console.WriteLine("");
 
-            for (int j = 1; j <= ExperimentsCount; j++)
+            for (int j = 1; j <= CpuRanges; j++)
             {
                 long[] time = new long[5];
 
-                for (int i = 0; i < 1; i++)
+                for (int i = 0; i < ExperimentCount; i++)
                 {
                     time[i] = 0;
                 }
@@ -44,12 +49,12 @@ namespace DependencyTransformation
 
                 Console.WriteLine("Start of the round with limit of {0} logical cpus", CurrentLogicalCPUsInUse);
 
-                for (int i = 0; i < 1; i++)
+                for (int i = 0; i < ExperimentCount; i++)
                 {                  
                     sw = new Stopwatch();
-                    dc = new DependencyCalculator();
-                    sw.Start();
+                    dc = new DependencyCalculator();                    
                     dc.LoadData(GraphPath);
+                    sw.Start();
                     dc.ParralelTaskTransformation(CurrentLogicalCPUsInUse);
                     result = dc.getDependencyMatrix();
                     sw.Stop();
@@ -60,9 +65,9 @@ namespace DependencyTransformation
                     GC.Collect();
                     GC.WaitForPendingFinalizers();
 
-                    dc = new DependencyCalculator();
-                    sw.Start();
+                    dc = new DependencyCalculator();                
                     dc.LoadData(GraphPath);
+                    sw.Start();
                     dc.ParralelOwnForTransformation(CurrentLogicalCPUsInUse);
                     result = dc.getDependencyMatrix();
                     sw.Stop();
@@ -73,9 +78,9 @@ namespace DependencyTransformation
                     GC.Collect();
                     GC.WaitForPendingFinalizers();
 
-                    dc = new DependencyCalculator();
-                    sw.Start();
+                    dc = new DependencyCalculator();                   
                     dc.LoadData(GraphPath);
+                    sw.Start();
                     dc.ParallelNativeForTransformation(CurrentLogicalCPUsInUse);
                     result = dc.getDependencyMatrix();
                     sw.Stop();
@@ -86,12 +91,12 @@ namespace DependencyTransformation
 
                     GC.Collect();
                     GC.WaitForPendingFinalizers();
-
-                    Console.WriteLine("Method: Tasks; Ticks: {0}", time[1] / 1);
-                    Console.WriteLine("Method: Parallel Manager; Ticks: {0}", time[2] / 1);
-                    Console.WriteLine("Method: Native Parallel For; Ticks: {0}", time[3] / 1);
-                    Console.WriteLine("");
                 }
+
+                Console.WriteLine("Method: Tasks; Ticks: {0}", time[1] / ExperimentCount);
+                Console.WriteLine("Method: Parallel Manager; Ticks: {0}", time[2] / ExperimentCount);
+                Console.WriteLine("Method: Parallel For; Ticks: {0}", time[3] / ExperimentCount);
+                Console.WriteLine("");
             }
             Console.ReadKey();
         }  
