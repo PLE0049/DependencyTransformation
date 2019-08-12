@@ -17,11 +17,16 @@ namespace DependencyTransformation
             DependencyCalculator dc;
             double[][] result;
             Stopwatch sw;
-            string GraphPath = GraphKaratePath;
+            string GraphPath;
             int TotalNumberOfCpus = Environment.ProcessorCount;
             const int ExperimentsCount = 4;
             int CpuLimit = TotalNumberOfCpus / 4;
 
+
+            Console.WriteLine("Enter graph file path: ");
+            GraphPath = Console.ReadLine();
+
+            Console.WriteLine("");
             Console.WriteLine("Start of experiment");
             Console.WriteLine("Total cpus: {0}", TotalNumberOfCpus);
             Console.WriteLine("");
@@ -88,6 +93,7 @@ namespace DependencyTransformation
                     Console.WriteLine("");
                 }
             }
+            Console.ReadKey();
         }  
     }
 }
