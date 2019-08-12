@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -51,7 +52,7 @@ namespace DependencyTransformation
                 string[] attributes = line.Split(';');
                 int x = Int32.Parse(attributes[0]);
                 int y = Int32.Parse(attributes[1]);
-                double w = Double.Parse(attributes[2].Replace(',', '.'));
+                double w = Double.Parse(attributes[2].Replace(',', '.'), CultureInfo.InvariantCulture);
 
                 x = Nodes[x];
                 y = Nodes[y];
