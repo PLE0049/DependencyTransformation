@@ -31,7 +31,7 @@ namespace DependencyTransformation
             Console.WriteLine("Total cpus: {0}", TotalNumberOfCpus);
             Console.WriteLine("");
 
-            for (int j = 0; j < ExperimentsCount; j++)
+            for (int j = 1; j <= ExperimentsCount; j++)
             {
                 long[] time = new long[5];
 
@@ -40,7 +40,7 @@ namespace DependencyTransformation
                     time[i] = 0;
                 }
 
-                int CurrentLogicalCPUsInUse = CpuLimit + j;
+                int CurrentLogicalCPUsInUse = CpuLimit*j;
 
                 Console.WriteLine("Start of the round with limit of {0} logical cpus", CurrentLogicalCPUsInUse);
 
